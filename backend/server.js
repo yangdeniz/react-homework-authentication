@@ -87,6 +87,15 @@ router.get('/private/me', async (ctx, next) => {
 router.get('/private/news', async (ctx, next) => {
     ctx.response.body = news; 
 });
+router.get('/private/news/:id', async (ctx, next) => {
+    const [item] = news.filter(o => o.id === ctx.params.id);
+    if (item === undefined) {
+        ctx.response.status = 404;
+        ctx.response.body = { message: 'not found' };
+        return;
+    }
+    ctx.response.body = item; 
+});
 
 app.use(router.routes())
 app.use(router.allowedMethods());
